@@ -1,0 +1,40 @@
+package com.example.cool_tour.ui.map
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.cool_tour.domain.model.POI
+import com.example.cool_tour.domain.model.Ruta
+import com.example.cool_tour.domain.repository.POIRepository
+import com.example.cool_tour.domain.usecase.CalcularRutaUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class RouteSelectionViewModel @Inject constructor(
+    private val poiRepository: POIRepository,
+    private val calcularRutaUseCase: CalcularRutaUseCase
+) : ViewModel() {
+
+    private val _pois = MutableLiveData<List<POI>>()
+    val pois: LiveData<List<POI>> = _pois
+
+    private val seleccionados = mutableSetOf<POI>()
+
+    init {
+        viewModelScope.launch {
+            poiRepository.getPOIs().collect { _pois.value = it }
+        }
+    }
+
+    fun togglePOI(poi: POI, agregar: Boolean) {
+        if (agregar) seleccionados.add(poi) else seleccionados.remove(poi)
+    }
+
+    fun generarRutaLibre(): Ruta? {
+        if (seleccionados.isEmpty()) return null
+        return calcularRutaUseCase(seleccionados.toList())
+    }
+}
