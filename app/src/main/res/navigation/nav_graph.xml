@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mapFragment">
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.cool_tour.ui.map.MapFragment"
+        android:label="Mapa">
+        <action
+            android:id="@+id/action_map_to_poi"
+            app:destination="@id/poiDetailFragment"/>
+        <action
+            android:id="@+id/action_map_to_route_selection"
+            app:destination="@id/routeSelectionFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/poiDetailFragment"
+        android:name="com.example.cool_tour.ui.poi.POIDetailFragment"
+        android:label="Detalle POI">
+        <argument
+            android:name="poiId"
+            app:argType="string"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.cool_tour.ui.profile.ProfileFragment"
+        android:label="Perfil"/>
+
+    <fragment
+        android:id="@+id/qrScanFragment"
+        android:name="com.example.cool_tour.ui.qr.QRScanFragment"
+        android:label="Escanear QR"/>
+
+    <fragment
+        android:id="@+id/missionsFragment"
+        android:name="com.example.cool_tour.ui.missions.MissionsFragment"
+        android:label="Misiones"/>
+
+    <fragment
+        android:id="@+id/routeSelectionFragment"
+        android:name="com.example.cool_tour.ui.map.RouteSelectionFragment"
+        android:label="Seleccionar Ruta"/>
+
+</navigation>
