@@ -32,6 +32,17 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         programarSyncWorker()
+
+        // ← AGREGAR DESDE AQUÍ
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION), 100
+                )
+            }
+        }
+        // ← HASTA AQUÍ
     }
 
     private fun programarSyncWorker() {
@@ -43,4 +54,5 @@ class MainActivity : AppCompatActivity() {
                 workRequest
             )
     }
+
 }

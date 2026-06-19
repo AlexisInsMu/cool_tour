@@ -18,6 +18,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Marker
+import androidx.activity.result.contract.ActivityResultContracts
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,19 +30,52 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val viewModel: MapViewModel by viewModels()
     private var googleMap: GoogleMap? = null
 
+    private val locationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) @androidx.annotation.RequiresPermission(allOf = [android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION]) { permissions ->
+        if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
+            googleMap?.isMyLocationEnabled = true
+            viewModel.iniciarSeguimientoUbicacion()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        locationPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+
+        // ← AGREGAR DESDE AQUÍ
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         binding.fabSeleccionarRuta.setOnClickListener {
             findNavController().navigate(R.id.action_map_to_route_selection)
         }
+
+        // Observar ruta seleccionada desde RouteSelectionFragment
+        findNavController()
+            .currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<List<String>>("rutaSeleccionada")
+            ?.observe(viewLifecycleOwner) { poisIds ->
+                val poisSeleccionados = viewModel.pois.value
+                    ?.filter { it.id in poisIds } ?: emptyList()
+                if (poisSeleccionados.isNotEmpty()) {
+                    viewModel.trazarRuta(poisSeleccionados)
+                }
+            }
+        // ← HASTA AQUÍ
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -71,21 +106,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        map.setOnMarkerClickListener { marker ->
+
+        map.setOnMarkerClickListener { marker: Marker ->
             val poiId = marker.tag as? String
             poiId?.let {
-                val action = MapFragmentDirections.actionMapToPoi(it)
-                findNavController().navigate(action)
+                val bundle = android.os.Bundle().apply { putString("poiId", it) }
+                findNavController().navigate(R.id.action_map_to_poi, bundle)
             }
             true
         }
-
         viewModel.rutaPolilinea.observe(viewLifecycleOwner) { opciones ->
             opciones?.let { map.addPolyline(it) }
         }
 
         viewModel.cargarPOIs()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

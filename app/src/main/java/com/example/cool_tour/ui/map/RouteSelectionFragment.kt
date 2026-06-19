@@ -31,10 +31,20 @@ class RouteSelectionFragment : Fragment() {
         binding.rvPoisSeleccionables.adapter = adapter
         viewModel.pois.observe(viewLifecycleOwner) { adapter.submitList(it) }
         binding.btnIniciarRuta.setOnClickListener {
-            viewModel.generarRutaLibre()
+            val ruta = viewModel.generarRutaLibre()
+            ruta?.let {
+                // Compartir ruta con MapViewModel via SharedViewModel o NavBackStackEntry
+                findNavController()
+                    .previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("rutaSeleccionada", it.pois.map { poi -> poi.id })
+            }
             findNavController().popBackStack()
         }
+
+
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

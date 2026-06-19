@@ -9,6 +9,11 @@ class GeofenceRepositoryImpl @Inject constructor(
     private val geofenceManager: GeofenceManager
 ) : GeofenceRepository {
 
-    override suspend fun registrarGeofences(pois: List<POI>) = geofenceManager.registrar(pois)
-    override fun limpiarGeofences() = geofenceManager.limpiar()
+    override fun registrarGeofences(pois: List<POI>) {
+        geofenceManager.registrar(pois)
+    }
+
+    override fun limpiarGeofences() {
+        geofenceManager.limpiar()
+    }
 }
