@@ -8,4 +8,5 @@ interface POIRepository {
     suspend fun getPOIById(id: String): POI?
     suspend fun insertPOI(poi: POI)
     suspend fun insertPOIs(pois: List<POI>)
+    suspend fun sincronizarDesdeBackend()
 }

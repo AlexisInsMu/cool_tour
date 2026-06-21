@@ -36,20 +36,10 @@ class MapViewModel @Inject constructor(
     // DESPUÉS — pública y lanzada en coroutine
     fun cargarPOIs() {
         viewModelScope.launch {
-            val stubs = listOf(
-                POI("P1", "Catedral Central", "Catedral histórica del centro", 19.4326, -99.1332,
-                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", ""),
-                POI("P2", "Museo Nacional", "Arte e historia de México", 19.4260, -99.1455,
-                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", ""),
-                POI("P3", "Jardín Principal", "El parque más antiguo", 19.4350, -99.1400,
-                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", ""),
-                POI("P4", "Mercado de Artesanías", "Mercado tradicional con 200 locales", 19.4280, -99.1380,
-                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", ""),
-                POI("P5", "Mirador del Cerro", "Vista panorámica desde 2800 metros", 19.4400, -99.1500,
-                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", "")
-            )
-            poiRepository.insertPOIs(stubs)
-            _pois.postValue(stubs)   // postValue en vez de .value porque estamos en coroutine
+            poiRepository.sincronizarDesdeBackend()   // ← Trae del backend primero
+            poiRepository.getPOIs().collect { lista ->
+                _pois.value = lista   // ← Ya no hay fallback a stub
+            }
         }
     }
     fun iniciarSeguimientoUbicacion() {
