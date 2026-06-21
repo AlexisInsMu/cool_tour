@@ -2,13 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F5F5F5">
 
+    <!-- Header de perfil -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mi Perfil"
+            android:textColor="#212121"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvRutasCompletadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="0 rutas"
+            android:textColor="#757575"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <!-- Título historial -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Perfil de Usuario"
-        android:textSize="20sp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Historial de rutas"
+        android:textColor="#212121"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <!-- Lista de rutas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHistorialRutas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"/>
 
 </LinearLayout>

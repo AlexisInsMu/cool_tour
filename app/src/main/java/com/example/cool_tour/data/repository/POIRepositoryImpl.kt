@@ -27,7 +27,7 @@ class POIRepositoryImpl @Inject constructor(
     override suspend fun insertPOIs(pois: List<POI>) =
         poiDao.insertPOIs(pois.map { it.toEntity() })
 
-    suspend fun sincronizarDesdeBackend() {
+    override suspend fun sincronizarDesdeBackend() {
         try {
             val poisRemotos = apiService.getPOIs().map { it.toDomain() }
             insertPOIs(poisRemotos)

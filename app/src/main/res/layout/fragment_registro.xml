@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="#673AB7">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="Nombre completo"
+            android:textColorHint="#757575"
             app:startIconDrawable="@android:drawable/ic_menu_myplaces"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -43,6 +44,7 @@
                 android:id="@+id/etNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#212121"
                 android:inputType="textCapWords"/>
 
         </com.google.android.material.textfield.TextInputLayout>
