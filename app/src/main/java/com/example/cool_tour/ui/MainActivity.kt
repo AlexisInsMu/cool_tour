@@ -31,6 +31,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.bottomNavigationView.visibility =
+                if (destination.id == R.id.loginFragment || destination.id == R.id.registroFragment) {
+                    android.view.View.GONE
+                } else {
+                    android.view.View.VISIBLE
+                }
+        }
+
         programarSyncWorker()
 
         // ← AGREGAR DESDE AQUÍ
