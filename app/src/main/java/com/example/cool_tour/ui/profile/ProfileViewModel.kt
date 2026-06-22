@@ -17,6 +17,8 @@ class ProfileViewModel @Inject constructor(
 
     private val _historialRutas = MutableLiveData<List<Ruta>>()
     val historialRutas: LiveData<List<Ruta>> = _historialRutas
+    private val _rutasPorVisitar = MutableLiveData<List<Ruta>>()
+    val rutasPorVisitar: LiveData<List<Ruta>> = _rutasPorVisitar
 
     init {
         cargarHistorial()
@@ -25,8 +27,16 @@ class ProfileViewModel @Inject constructor(
     private fun cargarHistorial() {
         viewModelScope.launch {
             rutaRepository.obtenerMisRutas()
-                .onSuccess { _historialRutas.value = it }
-                .onFailure { _historialRutas.value = emptyList() }
+                .onSuccess { rutas ->
+                    // Por ahora mostramos todas en historial
+                    // hasta implementar tracking de estado por usuario
+                    _historialRutas.value = rutas
+                    _rutasPorVisitar.value = emptyList()
+                }
+                .onFailure {
+                    _historialRutas.value = emptyList()
+                    _rutasPorVisitar.value = emptyList()
+                }
         }
     }
 }

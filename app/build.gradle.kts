@@ -79,4 +79,5 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.glide)
 }

@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/explorarRutasFragment"
+        android:name="com.example.cool_tour.ui.rutas.ExplorarRutasFragment"
+        android:label="Explorar Rutas">
+        <action
+            android:id="@+id/action_explorar_to_map"
+            app:destination="@id/mapFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.cool_tour.ui.auth.LoginFragment"
@@ -32,6 +42,12 @@
         android:id="@+id/mapFragment"
         android:name="com.example.cool_tour.ui.map.MapFragment"
         android:label="Mapa">
+
+        <argument
+            android:name="rutaId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_map_to_poi"
             app:destination="@id/poiDetailFragment"/>
@@ -52,7 +68,21 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.cool_tour.ui.profile.ProfileFragment"
-        android:label="Perfil"/>
+        android:label="Perfil">
+        <action
+            android:id="@+id/action_perfil_to_login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_perfil_to_loginLocatario"
+            app:destination="@id/loginLocatarioFragment" />
+
+        <action
+            android:id="@+id/action_perfil_to_panelLocatario"
+            app:destination="@id/panelLocatarioFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/qrScanFragment"
@@ -69,4 +99,25 @@
         android:name="com.example.cool_tour.ui.map.RouteSelectionFragment"
         android:label="Seleccionar Ruta"/>
 
+    <fragment
+        android:id="@+id/loginLocatarioFragment"
+        android:name="com.example.cool_tour.ui.locatario.LoginLocatarioFragment"
+        android:label="Login Locatario"
+        tools:layout="@layout/fragment_login_locatario">
+
+        <action
+            android:id="@+id/action_loginLocatario_to_panelLocatario"
+            app:destination="@id/panelLocatarioFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/panelLocatarioFragment"
+        android:name="com.example.cool_tour.ui.locatario.PanelLocatarioFragment"
+        android:label="Mi Panel"
+        tools:layout="@layout/fragment_panel_locatario">
+
+    <action
+        android:id="@+id/action_panelLocatario_to_poi"
+        app:destination="@id/poiDetailFragment" />
+    </fragment>
 </navigation>

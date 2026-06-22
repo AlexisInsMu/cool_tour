@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cafe_texto">#5D4037</color>
+    <color name="cafe_toolbar">#A1887F</color>
+    <!-- Paleta prehispánica Cool Tour -->
+    <color name="cafe_pastel">#F5ECD7</color>
+    <color name="crema_calido">#FDF6E3</color>
+    <color name="terracota">#C0652B</color>
+    <color name="jade_green">#4A7C59</color>
+    <color name="cafe_oscuro">#3E2723</color>
+    <color name="cafe_medio">#795548</color>
+    <color name="oro_antiguo">#B8860B</color>
 </resources>

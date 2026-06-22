@@ -1,53 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="#F5ECD7">
 
-    <!-- Header de perfil -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
+        <!-- Header con patrón prehispánico -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#C0652B">
+
+            <!-- Franja de patrón en la parte inferior del header -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_alignParentBottom="true"
+                android:background="#B8860B"/>
+
+            <!-- Franja de patrón secundaria -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_above="@+id/franjaOro"
+                android:layout_marginBottom="4dp"
+                android:background="#4A7C59"/>
+
+            <View
+                android:id="@+id/franjaOro"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_alignParentBottom="true"
+                android:background="#B8860B"/>
+
+            <!-- Foto de perfil -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivFotoPerfil"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:background="#FDF6E3"
+                android:padding="3dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                app:strokeColor="#B8860B"
+                app:strokeWidth="3dp"/>
+
+            <!-- Botón cambiar foto -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCambiarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/ivFotoPerfil"
+                android:layout_alignBottom="@id/ivFotoPerfil"
+                android:layout_marginEnd="-4dp"
+                android:layout_marginBottom="-4dp"
+                app:backgroundTint="#4A7C59"
+                app:fabSize="mini"
+                app:srcCompat="@android:drawable/ic_menu_camera"
+                app:tint="@android:color/white"/>
+
+        </RelativeLayout>
+
+        <!-- Nombre y stats -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mi Perfil"
-            android:textColor="#212121"
-            android:textSize="22sp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:background="#F5ECD7">
+
+            <TextView
+                android:id="@+id/tvNombreUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre de usuario"
+                android:textColor="#3E2723"
+                android:textSize="22sp"
+                android:textStyle="bold"/>
+
+            <!-- Estadísticas en fila -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- Rutas completadas -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvContadorRutasCompletadas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#C0652B"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="completadas"
+                        android:textColor="#795548"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <!-- Divisor -->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="#B8860B"/>
+
+                <!-- Rutas pendientes -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvContadorRutasPendientes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#4A7C59"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="por visitar"
+                        android:textColor="#795548"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <!-- Divisor -->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="#B8860B"/>
+
+                <!-- POIs visitados -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvContadorPOIs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#B8860B"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="lugares"
+                        android:textColor="#795548"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Separador decorativo prehispánico -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="8dp">
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#B8860B"/>
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#F5ECD7" android:layout_marginVertical="2dp"/>
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#B8860B"/>
+        </LinearLayout>
+
+        <!-- Sección: Historial de rutas -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="📜 Mis rutas"
+            android:textColor="#3E2723"
+            android:textSize="16sp"
             android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tvRutasCompletadas"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHistorialRutas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="0 rutas"
-            android:textColor="#757575"
-            android:textSize="14sp"/>
+            android:nestedScrollingEnabled="false"/>
+
+        <!-- Separador decorativo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="12dp">
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#B8860B"/>
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#F5ECD7" android:layout_marginVertical="2dp"/>
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#B8860B"/>
+        </LinearLayout>
+
+        <!-- Sección: Rutas por visitar -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="🗺️ Por visitar"
+            android:textColor="#3E2723"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRutasPorVisitar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+        <!-- Separador decorativo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="12dp">
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#B8860B"/>
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#F5ECD7" android:layout_marginVertical="2dp"/>
+            <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#B8860B"/>
+        </LinearLayout>
+
+        <!-- Botón Soy Locatario -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAccesoLocatario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="🏪 Soy locatario"
+            android:textColor="@android:color/white"
+            app:backgroundTint="#C0652B"
+            app:cornerRadius="8dp"/>
+
+        <!-- Botón Cerrar sesión -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCerrarSesion"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp"
+            android:text="Cerrar sesión"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#C0652B"
+            app:strokeColor="#C0652B"
+            app:strokeWidth="1dp" />
 
     </LinearLayout>
 
-    <!-- Título historial -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="Historial de rutas"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
-
-    <!-- Lista de rutas -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHistorialRutas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="16dp"/>
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

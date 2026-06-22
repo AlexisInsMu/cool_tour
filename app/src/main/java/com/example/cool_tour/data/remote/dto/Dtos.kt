@@ -24,6 +24,7 @@ data class RutaResponse(
     val id: String,
     val nombre: String,
     val estado: String,
+    val descripcion: String?,
     val pois: List<RutaPoiDto>
 )
 data class RutaPoiDto(val orden: Int, val poi: POIDto)

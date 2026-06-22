@@ -54,6 +54,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+        // Leer rutaId si viene de "Explorar Rutas"
+        val rutaId = arguments?.getString("rutaId")
+
+        if (rutaId != null) {
+            // Viene de una ruta oficial → cargar esa ruta y activarla en el mapa
+            viewModel.activarRutaOficial(rutaId)
+
+            // Ocultar el FAB de "Seleccionar Ruta Libre" — no aplica en modo ruta oficial
+            binding.fabSeleccionarRuta.visibility = View.GONE
+        } else {
+            // No viene de ruta oficial → comportamiento normal
+            binding.fabSeleccionarRuta.visibility = View.VISIBLE
+        }
 
         // ← AGREGAR DESDE AQUÍ
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
@@ -106,7 +119,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-
         map.setOnMarkerClickListener { marker: Marker ->
             val poiId = marker.tag as? String
             poiId?.let {
@@ -119,7 +131,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             opciones?.let { map.addPolyline(it) }
         }
 
-        viewModel.cargarPOIs()
+        val rutaId = arguments?.getString("rutaId")
+        if (rutaId != null) {
+            viewModel.cargarPOIsDeRuta(rutaId)   // ← Solo los POIs de esta ruta
+        } else {
+            viewModel.cargarPOIs()                // ← Comportamiento general (todos)
+        }
     }
 
 

@@ -1,27 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#000000">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apunta la cámara al código QR"
-        android:textSize="18sp"/>
-
+    <!-- Fondo de la cámara simulado (gris oscuro hasta que se implemente CameraX) -->
     <View
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginVertical="24dp"
-        android:background="#E0E0E0"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#1A1A1A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <Button
-        android:id="@+id/btnSimularScan"
+    <!-- Marco del escáner -->
+    <FrameLayout
+        android:id="@+id/marcoEscaneo"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        app:layout_constraintBottom_toTopOf="@id/tvInstruccion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38">
+
+        <!-- Fondo semitransparente del marco -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#22FFFFFF"/>
+
+        <!-- Esquina superior izquierda -->
+        <View
+            android:layout_width="32dp"
+            android:layout_height="4dp"
+            android:layout_gravity="top|start"
+            android:background="#4CAF50"/>
+        <View
+            android:layout_width="4dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|start"
+            android:background="#4CAF50"/>
+
+        <!-- Esquina superior derecha -->
+        <View
+            android:layout_width="32dp"
+            android:layout_height="4dp"
+            android:layout_gravity="top|end"
+            android:background="#4CAF50"/>
+        <View
+            android:layout_width="4dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|end"
+            android:background="#4CAF50"/>
+
+        <!-- Esquina inferior izquierda -->
+        <View
+            android:layout_width="32dp"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom|start"
+            android:background="#4CAF50"/>
+        <View
+            android:layout_width="4dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom|start"
+            android:background="#4CAF50"/>
+
+        <!-- Esquina inferior derecha -->
+        <View
+            android:layout_width="32dp"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom|end"
+            android:background="#4CAF50"/>
+        <View
+            android:layout_width="4dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom|end"
+            android:background="#4CAF50"/>
+
+    </FrameLayout>
+
+    <!-- Instrucción -->
+    <TextView
+        android:id="@+id/tvInstruccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Simular Escaneo (stub)"/>
+        android:layout_marginTop="24dp"
+        android:text="Apunta al código QR del locatario"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/marcoEscaneo"/>
 
-</LinearLayout>
+    <!-- Estado del permiso / estado de cámara -->
+    <TextView
+        android:id="@+id/tvEstadoCamara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text=""
+        android:textColor="#4CAF50"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvInstruccion"/>
+
+    <!-- Botón solicitar permiso (visible si no tiene permiso) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSolicitarPermiso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="Permitir acceso a cámara"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

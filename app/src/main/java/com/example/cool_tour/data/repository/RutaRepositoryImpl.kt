@@ -6,6 +6,7 @@ import com.example.cool_tour.data.mapper.toDomain
 import com.example.cool_tour.data.mapper.toEntity
 import com.example.cool_tour.data.remote.ApiService
 import com.example.cool_tour.data.remote.dto.RutaRequest
+import com.example.cool_tour.domain.model.RutaResumen
 import com.example.cool_tour.domain.model.POI
 import com.example.cool_tour.domain.model.Ruta
 import com.example.cool_tour.domain.repository.RutaRepository
@@ -59,6 +60,45 @@ class RutaRepositoryImpl @Inject constructor(
                 )
             }
             Result.success(rutas)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    override suspend fun obtenerRutasDisponibles(): Result<List<RutaResumen>> {
+        return try {
+            val response = apiService.getRutasExplorar() // método de tu interfaz Retrofit
+            Result.success(response.map { it.toDomain() })
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun obtenerRutaPorId(id: String): Result<Ruta> {
+        return try {
+            val token = sessionManager.obtenerToken()
+                ?: return Result.failure(Exception("No autenticado"))
+            val dto = apiService.getRutaDetalle("Bearer $token", id)
+            val pois = dto.pois.map { rutaPoiDto ->
+                POI(
+                    id = rutaPoiDto.poi.id,
+                    nombre = rutaPoiDto.poi.nombre,
+                    descripcion = rutaPoiDto.poi.descripcion,
+                    latitud = rutaPoiDto.poi.latitud,
+                    longitud = rutaPoiDto.poi.longitud,
+                    audioUrl = rutaPoiDto.poi.audioUrl,
+                    imageUrl = rutaPoiDto.poi.imageUrl ?: "",
+                    radioMetros = rutaPoiDto.poi.radioMetros
+                )
+            }
+            Result.success(
+                Ruta(
+                    id = dto.id,
+                    nombre = dto.nombre,
+                    descripcion = dto.descripcion ?: "",
+                    pois = pois,
+                    distanciaKm = 0.0
+                )
+            )
         } catch (e: Exception) {
             Result.failure(e)
         }
